@@ -5,13 +5,13 @@ const Content = (props) => {
   return (
     <>
       <Part
-        part={props.part1}
+        part={props.parts[0]}
       />
       <Part
-        part={props.part2}
+        part={props.parts[1]}
       />
       <Part
-        part={props.part3}
+        part={props.parts[2]}
       />
     </>
   );
