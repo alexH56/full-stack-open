@@ -1,13 +1,22 @@
-import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react';
+import Button from './Button';
 
-const Feedback = () => {
+const Feedback = ({ good, neutral, bad, setGood, setNeutral, setBad }) => {
   return (
     <>
       <h1>Give Feedback</h1>
-      <button>Good</button>
-      <button>Bad</button>
-      <button>Neutral</button>
+      <Button
+        text='Good'
+        handleClick={() => setGood(good + 1)}
+      />
+      <Button
+        text='Neutral'
+        handleClick={() => setNeutral(neutral + 1)}
+      />
+      <Button
+        text='Bad'
+        handleClick={() => setBad(bad + 1)}
+      />
     </>
   );
 };

@@ -1,16 +1,13 @@
-import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react';
 
-const Stats = () => {
-  const { good, bad, neutral } = [0, 0, 0];
-
+const Stats = ({ good, bad, neutral }) => {
   return (
     <>
       <h1>Statistics</h1>
       <ul>
-        <li>Good: {good}</li>
-        <li>Bad: {bad}</li>
-        <li>Neutral: {neutral}</li>
+        <li>{`Good: ${good}`}</li>
+        <li>{`Neutral: ${neutral}`}</li>
+        <li>{`Bad: ${bad}`}</li>
       </ul>
     </>
   );
