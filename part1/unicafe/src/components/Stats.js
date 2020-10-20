@@ -8,14 +8,19 @@ const Stats = ({ good, bad, neutral }) => {
   return (
     <>
       <h1>Statistics</h1>
-      <ul>
-        <li>{`Good: ${good}`}</li>
-        <li>{`Neutral: ${neutral}`}</li>
-        <li>{`Bad: ${bad}`}</li>
-        <li>{`All: ${all}`}</li>
-        <li>{`Average: ${average}`}</li>
-        <li>{`Positive: ${percent}%`}</li>
-      </ul>
+
+      {(good > 0 || (neutral > 0) || bad > 0)
+
+        ? <ul>
+          <li>{`Good: ${good}`}</li>
+          <li>{`Neutral: ${neutral}`}</li>
+          <li>{`Bad: ${bad}`}</li>
+          <li>{`All: ${all}`}</li>
+          <li>{`Average: ${average}`}</li>
+          <li>{`Positive: ${percent}%`}</li>
+        </ul>
+
+        : <p>No feedback given</p>}
     </>
   );
 };
