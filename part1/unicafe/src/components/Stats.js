@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Statistics = ({ good, bad, neutral }) => {
+const Stats = ({ good, bad, neutral }) => {
   const all = good + bad + neutral;
   const average = good + (bad * -1) + (neutral * 0);
   const percent = good > 0 ? good / all * 100 : 0;
@@ -20,5 +20,5 @@ const Statistics = ({ good, bad, neutral }) => {
   );
 };
 
-export default Statistics
+export default Stats
 ;
