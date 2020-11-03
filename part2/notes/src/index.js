@@ -1,6 +1,6 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import App from './App'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
 
 const notes = [
   {
@@ -21,9 +21,9 @@ const notes = [
     date: '2020-01-10T19:20:14.298Z',
     important: true
   }
-]
+];
 
 ReactDOM.render(
   <App notes={notes} />,
   document.getElementById('root')
-)
+);
