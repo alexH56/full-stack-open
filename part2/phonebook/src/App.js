@@ -3,8 +3,7 @@ import React, { useState } from 'react';
 const App = () => {
   const [persons, setPersons] = useState([
     {
-      name: 'Arto Hellas',
-      id: 1
+      name: 'Arto Hellas'
     }
   ]);
   const [newName, setNewName] = useState('');
@@ -15,13 +14,16 @@ const App = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const entry = {
-      name: newName,
-      id: persons.length + 1
-    };
 
-    setPersons(persons.concat(entry));
-    setNewName('');
+    if (persons.map(person => person.name).includes(newName)) {
+      alert(`${newName} is already added to phonebook`);
+    } else {
+      const entry = {
+        name: newName
+      };
+      setPersons(persons.concat(entry));
+      setNewName('');
+    }
   };
 
   return (
@@ -42,7 +44,7 @@ const App = () => {
       <ul>
         <li>Debug: {newName}</li>
         {persons.map(person => (
-          <li key={person.id}>{person.name}</li>
+          <li key={person.name}>{person.name}</li>
         ))}
       </ul>
     </div>
