@@ -6,12 +6,21 @@ import Country from './componenets/Country';
 const App = () => {
   const [filter, setFilter] = useState('');
   const [countries, setCountries] = useState([]);
+  const [selected, setSelected] = useState('');
   const matches = filter
     ? countries.filter(country => country.name.toLowerCase().includes(`${filter.toLowerCase()}`))
     : [];
 
   const handleFilterChange = (e) => {
     setFilter(e.target.value);
+    if (selected) {
+      setSelected('');
+    }
+  };
+
+  const handleShow = (index) => {
+    console.log(matches[index]);
+    setSelected(matches[index]);
   };
 
   useEffect(() => {
@@ -35,19 +44,20 @@ const App = () => {
 
           ? <p>Too many countries; be more specific</p>
 
-          : matches.length === 1
+          : selected
 
             ? <Country
-              name={matches[0].name}
-              capital={matches[0].capital}
-              population={matches[0].population}
-              languages={matches[0].languages}
-              flag={matches[0].flag}
+              name={selected.name}
+              capital={selected.capital}
+              population={selected.population}
+              languages={selected.languages}
+              flag={selected.flag}
               />
 
             : <ul>
-              {matches.map((country) => (
-                <li key={country.name}>{country.name}</li>))}
+              {matches.map((country, index) => (
+                <li key={country.name}>{country.name} <button onClick={() => handleShow(index)}>SHOW</button></li>
+              ))}
               </ul>
 
         : null}
