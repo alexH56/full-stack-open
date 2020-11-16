@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-import Country from './componenets/Country';
+import Country from './components/Country';
 
 const App = () => {
   const [filter, setFilter] = useState('');
@@ -19,7 +19,7 @@ const App = () => {
   };
 
   const handleShow = (index) => {
-    console.log(matches[index]);
+    // console.log(matches[index]);
     setSelected(matches[index]);
   };
 
