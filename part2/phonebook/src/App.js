@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 
 import Filter from './Components/Filter';
 import EntryForm from './Components/EntryForm';
 import Person from './Components/Person';
+
+import phonebookService from './Services/phone';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -12,11 +13,10 @@ const App = () => {
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(res => {
-        console.log(res);
-        setPersons(res.data);
+    phonebookService
+      .getPeople()
+      .then(people => {
+        setPersons(people);
       });
   },
   []);
@@ -47,9 +47,8 @@ const App = () => {
         name: newName,
         number: newNumber
       };
-      axios
-        .post('http://localhost:3001/persons', entry)
-        .then(response => response.data)
+      phonebookService
+        .addPerson(entry)
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson));
           setNewName('');
