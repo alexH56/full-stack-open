@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+
 import Filter from './Components/Filter';
 import EntryForm from './Components/EntryForm';
 import Person from './Components/Person';
-import axios from 'axios';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -15,8 +16,8 @@ const App = () => {
       .get('http://localhost:3001/persons')
       .then(res => {
         console.log(res);
-        setPersons(res.data); 
-});
+        setPersons(res.data);
+      });
   },
   []);
 
@@ -46,9 +47,14 @@ const App = () => {
         name: newName,
         number: newNumber
       };
-      setPersons(persons.concat(entry));
-      setNewName('');
-      setNewNumber('');
+      axios
+        .post('http://localhost:3001/persons', entry)
+        .then(response => response.data)
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson));
+          setNewName('');
+          setNewNumber('');
+        });
     }
   };
 
