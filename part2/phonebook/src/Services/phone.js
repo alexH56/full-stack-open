@@ -1,18 +1,23 @@
 import axios from 'axios';
-const baseUrl = 'http://localhost:3001/persons';
+const baseURL = 'http://localhost:3001/persons/';
 
 const addPerson = newObject => (
   axios
-    .post(baseUrl, newObject)
+    .post(baseURL, newObject)
     .then(response => response.data)
 );
 
 const getPeople = () => (
   axios
-    .get(baseUrl)
+    .get(baseURL)
     .then(res => res.data)
 );
 
-const phonebookServices = { addPerson, getPeople };
+const deletePerson = (personID) => {
+  const resourceAddress = baseURL + personID;
+  return axios.delete(resourceAddress);
+};
+
+const phonebookServices = { addPerson, getPeople, deletePerson };
 export default phonebookServices
 ;

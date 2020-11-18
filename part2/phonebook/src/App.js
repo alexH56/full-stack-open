@@ -57,6 +57,16 @@ const App = () => {
     }
   };
 
+  const handleDelete = (id, name) => {
+    if (window.confirm(`Are you sure you want to delete ${name}?`)) {
+      phonebookService
+        .deletePerson(id)
+        .then(() => {
+          setPersons(persons.filter(person => person.id !== id));
+        });
+    }
+  };
+
   return (
     <div>
 
@@ -82,6 +92,8 @@ const App = () => {
             key={person.name}
             name={person.name}
             number={person.number}
+            id={person.id}
+            handleDelete={handleDelete}
           />
         ))}
       </ul>
