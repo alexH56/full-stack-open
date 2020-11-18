@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Filter from './Components/Filter';
 import EntryForm from './Components/EntryForm';
 import Person from './Components/Person';
+import Message from './Components/Message';
 
 import phonebookService from './Services/phone';
 
@@ -11,6 +12,7 @@ const App = () => {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [filter, setFilter] = useState('');
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     phonebookService
@@ -51,8 +53,14 @@ const App = () => {
 
         phonebookService
           .updatePerson(existingEntry.id, updatedEntry)
-          .then(returnedEntry => {
-            setPersons(persons.map(person => person.id !== existingEntry.id ? person : returnedEntry));
+          .then(returnedPerson => {
+            setPersons(persons.map(person => person.id !== existingEntry.id ? person : returnedPerson));
+            setMessage(`Updated ${returnedPerson.name} successfully`);
+            setTimeout(() => {
+              setMessage(null);
+            }, 5000);
+            setNewName('');
+            setNewNumber('');
           });
       } else {
         alert(`${newName} is already added to phonebook`);
@@ -67,6 +75,10 @@ const App = () => {
         .addPerson(entry)
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson));
+          setMessage(`Added ${returnedPerson.name} successfully`);
+          setTimeout(() => {
+            setMessage(null);
+          }, 5000);
           setNewName('');
           setNewNumber('');
         });
@@ -102,6 +114,11 @@ const App = () => {
       />
 
       <h2>Numbers</h2>
+
+      <Message
+        message={message}
+      />
+
       <ul>
         {personsCopy.map(person => (
           <Person
