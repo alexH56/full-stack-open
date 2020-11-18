@@ -61,9 +61,17 @@ const App = () => {
             }, 5000);
             setNewName('');
             setNewNumber('');
+          })
+          .catch(err => {
+            console.log(err);
+            setPersons(persons.filter(person => person.id !== existingEntry.id));
+            setMessage(`Error: ${existingEntry.name} no longer exists in database`);
+            setTimeout(() => {
+              setMessage(null);
+            }, 5000);
           });
       } else {
-        alert(`${newName} is already added to phonebook`);
+        setMessage(`Error: ${newName} is already added to phonebook`);
       }
     } else {
       const entry = {

@@ -3,7 +3,7 @@ const Message = ({ message }) => {
     return null;
   }
 
-  const messageStyle = {
+  let messageStyle = {
     color: 'green',
     background: 'lightgrey',
     fontSize: 20,
@@ -12,6 +12,13 @@ const Message = ({ message }) => {
     padding: 10,
     marginottom: 10
   };
+
+  if (message.startsWith('Error')) {
+    messageStyle = {
+      ...messageStyle,
+      color: 'red'
+    };
+  }
 
   return (
     <div style={messageStyle}>
