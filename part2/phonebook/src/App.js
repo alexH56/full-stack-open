@@ -40,13 +40,29 @@ const App = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (persons.map(person => person.name).includes(newName)) {
-      alert(`${newName} is already added to phonebook`);
+    if (persons.map(person => person.name.toLowerCase()).includes(newName.toLowerCase())) {
+      const existingEntry = persons.find(person => person.name.toLowerCase() === newName.toLowerCase());
+
+      if (existingEntry.number !== newNumber) {
+        const updatedEntry = {
+          ...existingEntry,
+          number: newNumber
+        };
+
+        phonebookService
+          .updatePerson(existingEntry.id, updatedEntry)
+          .then(returnedEntry => {
+            setPersons(persons.map(person => person.id !== existingEntry.id ? person : returnedEntry));
+          });
+      } else {
+        alert(`${newName} is already added to phonebook`);
+      }
     } else {
       const entry = {
         name: newName,
         number: newNumber
       };
+
       phonebookService
         .addPerson(entry)
         .then(returnedPerson => {
