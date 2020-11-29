@@ -28,8 +28,16 @@ app.get('/api/persons', (request, response) => {
   response.json(persons);
 });
 
+app.get('/api/persons/:id', (request, response) => {
+  const id = Number(request.params.id);
+  const entry = persons.find(person => person.id === id);
+
+  entry
+    ? response.json(entry)
+    : response.status(404).end();
+});
+
 app.get('/api/info', (request, response) => {
-  console.log(persons.length);
   response.send(`
     <p>There are currently ${persons.length} entries in the phonebook</p>
     <p>${new Date()}</p>
