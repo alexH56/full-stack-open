@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 
-const persons = [
+let persons = [
   {
     name: 'Arto Hellas',
     number: '040-123456',
@@ -35,6 +35,18 @@ app.get('/api/persons/:id', (request, response) => {
   entry
     ? response.json(entry)
     : response.status(404).end();
+});
+
+app.delete('/api/persons/:id', (request, response) => {
+  const id = Number(request.params.id);
+  const entry = persons.find(person => person.id === id);
+
+  if (entry) {
+    persons = persons.filter(person => person.id !== id);
+    response.status(204).end();
+  } else {
+    response.status(404).end();
+  }
 });
 
 app.get('/api/info', (request, response) => {
