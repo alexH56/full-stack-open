@@ -24,6 +24,12 @@ let persons = [
   }
 ];
 
+app.use(express.json());
+
+const generateId = () => {
+  return Math.floor(Math.random() * 100);
+};
+
 app.get('/api/persons', (request, response) => {
   response.json(persons);
 });
@@ -35,6 +41,20 @@ app.get('/api/persons/:id', (request, response) => {
   entry
     ? response.json(entry)
     : response.status(404).end();
+});
+
+app.post('/api/persons', (request, response) => {
+  const body = request.body;
+
+  const person = {
+    content: body.name,
+    important: body.number,
+    id: generateId()
+  };
+
+  persons = persons.concat(person);
+
+  response.json(person);
 });
 
 app.delete('/api/persons/:id', (request, response) => {
