@@ -46,8 +46,28 @@ app.get('/api/persons/:id', (request, response) => {
 app.post('/api/persons', (request, response) => {
   const body = request.body;
 
+  const names = persons.map(person => person.name.toLowerCase());
+
+  if (names.includes(body.name.toLowerCase())) {
+    return response.status(400).json({
+      error: `${body.name} is already in the phonebook!`
+    });
+  }
+
+  if (!body.name) {
+    return response.status(400).json({
+      error: 'no name was submitted'
+    });
+  }
+
+  if (!body.number) {
+    return response.status(400).json({
+      error: 'no number was submitted'
+    });
+  }
+
   const person = {
-    content: body.name,
+    name: body.name,
     important: body.number,
     id: generateId()
   };
