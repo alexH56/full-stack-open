@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const morgan = require('morgan');
 
 let persons = [
   {
@@ -26,6 +27,16 @@ let persons = [
 
 app.use(express.json());
 
+morgan.token('body', (request, response) => {
+  if (request.method === 'POST') {
+    return JSON.stringify(request.body);
+  } else {
+    return ' ';
+  }
+});
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'));
+
 const generateId = () => {
   return Math.floor(Math.random() * 100);
 };
@@ -41,6 +52,25 @@ app.get('/api/persons/:id', (request, response) => {
   entry
     ? response.json(entry)
     : response.status(404).end();
+});
+
+app.delete('/api/persons/:id', (request, response) => {
+  const id = Number(request.params.id);
+  const entry = persons.find(person => person.id === id);
+
+  if (entry) {
+    persons = persons.filter(person => person.id !== id);
+    response.status(204).end();
+  } else {
+    response.status(404).end();
+  }
+});
+
+app.get('/api/info', (request, response) => {
+  response.send(`
+    <p>There are currently ${persons.length} entries in the phonebook</p>
+    <p>${new Date()}</p>
+    `);
 });
 
 app.post('/api/persons', (request, response) => {
@@ -75,25 +105,6 @@ app.post('/api/persons', (request, response) => {
   persons = persons.concat(person);
 
   response.json(person);
-});
-
-app.delete('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id);
-  const entry = persons.find(person => person.id === id);
-
-  if (entry) {
-    persons = persons.filter(person => person.id !== id);
-    response.status(204).end();
-  } else {
-    response.status(404).end();
-  }
-});
-
-app.get('/api/info', (request, response) => {
-  response.send(`
-    <p>There are currently ${persons.length} entries in the phonebook</p>
-    <p>${new Date()}</p>
-    `);
 });
 
 const PORT = 3001;
